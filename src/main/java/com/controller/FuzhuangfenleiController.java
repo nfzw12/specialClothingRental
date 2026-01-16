@@ -21,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -59,7 +60,7 @@ public class FuzhuangfenleiController {
     /**
      * 后端列表
      */
-    @RequestMapping("/page")
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     public R page(@RequestParam Map<String, Object> params,FuzhuangfenleiEntity fuzhuangfenlei,
 		HttpServletRequest request){
         EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
@@ -73,7 +74,7 @@ public class FuzhuangfenleiController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params,FuzhuangfenleiEntity fuzhuangfenlei, 
 		HttpServletRequest request){
         EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
@@ -85,7 +86,7 @@ public class FuzhuangfenleiController {
 	/**
      * 列表
      */
-    @RequestMapping("/lists")
+    @RequestMapping(value = "/lists", method = RequestMethod.GET)
     public R list( FuzhuangfenleiEntity fuzhuangfenlei){
        	EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
       	ew.allEq(MPUtil.allEQMapPre( fuzhuangfenlei, "fuzhuangfenlei")); 
@@ -95,7 +96,7 @@ public class FuzhuangfenleiController {
 	 /**
      * 查询
      */
-    @RequestMapping("/query")
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     public R query(FuzhuangfenleiEntity fuzhuangfenlei){
         EntityWrapper< FuzhuangfenleiEntity> ew = new EntityWrapper< FuzhuangfenleiEntity>();
  		ew.allEq(MPUtil.allEQMapPre( fuzhuangfenlei, "fuzhuangfenlei")); 
@@ -106,7 +107,7 @@ public class FuzhuangfenleiController {
     /**
      * 后端详情
      */
-    @RequestMapping("/info/{id}")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id){
         FuzhuangfenleiEntity fuzhuangfenlei = fuzhuangfenleiService.selectById(id);
         return R.ok().put("data", fuzhuangfenlei);
@@ -116,7 +117,7 @@ public class FuzhuangfenleiController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping("/detail/{id}")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public R detail(@PathVariable("id") Long id){
         FuzhuangfenleiEntity fuzhuangfenlei = fuzhuangfenleiService.selectById(id);
         return R.ok().put("data", fuzhuangfenlei);
@@ -128,7 +129,7 @@ public class FuzhuangfenleiController {
     /**
      * 后端保存
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
     	fuzhuangfenlei.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
@@ -139,7 +140,7 @@ public class FuzhuangfenleiController {
     /**
      * 前端保存
      */
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public R add(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
     	fuzhuangfenlei.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
@@ -152,7 +153,7 @@ public class FuzhuangfenleiController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @Transactional
     public R update(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
         //ValidatorUtils.validateEntity(fuzhuangfenlei);
@@ -167,7 +168,7 @@ public class FuzhuangfenleiController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids){
         fuzhuangfenleiService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

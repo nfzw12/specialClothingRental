@@ -21,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -59,7 +60,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 后端列表
      */
-    @RequestMapping("/page")
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     public R page(@RequestParam Map<String, Object> params,ZukebaozhangxiufuEntity zukebaozhangxiufu,
 		HttpServletRequest request){
 		String tableName = request.getSession().getAttribute("tableName").toString();
@@ -77,7 +78,7 @@ public class ZukebaozhangxiufuController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params,ZukebaozhangxiufuEntity zukebaozhangxiufu, 
 		HttpServletRequest request){
         EntityWrapper<ZukebaozhangxiufuEntity> ew = new EntityWrapper<ZukebaozhangxiufuEntity>();
@@ -89,7 +90,7 @@ public class ZukebaozhangxiufuController {
 	/**
      * 列表
      */
-    @RequestMapping("/lists")
+    @RequestMapping(value = "/lists", method = RequestMethod.GET)
     public R list( ZukebaozhangxiufuEntity zukebaozhangxiufu){
        	EntityWrapper<ZukebaozhangxiufuEntity> ew = new EntityWrapper<ZukebaozhangxiufuEntity>();
       	ew.allEq(MPUtil.allEQMapPre( zukebaozhangxiufu, "zukebaozhangxiufu")); 
@@ -99,7 +100,7 @@ public class ZukebaozhangxiufuController {
 	 /**
      * 查询
      */
-    @RequestMapping("/query")
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     public R query(ZukebaozhangxiufuEntity zukebaozhangxiufu){
         EntityWrapper< ZukebaozhangxiufuEntity> ew = new EntityWrapper< ZukebaozhangxiufuEntity>();
  		ew.allEq(MPUtil.allEQMapPre( zukebaozhangxiufu, "zukebaozhangxiufu")); 
@@ -110,7 +111,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 后端详情
      */
-    @RequestMapping("/info/{id}")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id){
         ZukebaozhangxiufuEntity zukebaozhangxiufu = zukebaozhangxiufuService.selectById(id);
         return R.ok().put("data", zukebaozhangxiufu);
@@ -120,7 +121,7 @@ public class ZukebaozhangxiufuController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping("/detail/{id}")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public R detail(@PathVariable("id") Long id){
         ZukebaozhangxiufuEntity zukebaozhangxiufu = zukebaozhangxiufuService.selectById(id);
         return R.ok().put("data", zukebaozhangxiufu);
@@ -132,7 +133,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 后端保存
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody ZukebaozhangxiufuEntity zukebaozhangxiufu, HttpServletRequest request){
     	zukebaozhangxiufu.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(zukebaozhangxiufu);
@@ -143,7 +144,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 前端保存
      */
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public R add(@RequestBody ZukebaozhangxiufuEntity zukebaozhangxiufu, HttpServletRequest request){
     	zukebaozhangxiufu.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(zukebaozhangxiufu);
@@ -156,7 +157,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @Transactional
     public R update(@RequestBody ZukebaozhangxiufuEntity zukebaozhangxiufu, HttpServletRequest request){
         //ValidatorUtils.validateEntity(zukebaozhangxiufu);
@@ -167,7 +168,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 审核
      */
-    @RequestMapping("/shBatch")
+    @RequestMapping(value = "/shBatch", method = RequestMethod.PUT)
     @Transactional
     public R update(@RequestBody Long[] ids, @RequestParam String sfsh, @RequestParam String shhf){
         List<ZukebaozhangxiufuEntity> list = new ArrayList<ZukebaozhangxiufuEntity>();
@@ -187,7 +188,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids){
         zukebaozhangxiufuService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
@@ -203,7 +204,7 @@ public class ZukebaozhangxiufuController {
     /**
      * （按值统计）
      */
-    @RequestMapping("/value/{xColumnName}/{yColumnName}")
+    @RequestMapping(value = "/value/{xColumnName}/{yColumnName}", method = RequestMethod.GET)
     public R value(@PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("xColumn", xColumnName);
@@ -228,7 +229,7 @@ public class ZukebaozhangxiufuController {
     /**
      * （按值统计(多)）
      */
-    @RequestMapping("/valueMul/{xColumnName}")
+    @RequestMapping(value = "/valueMul/{xColumnName}", method = RequestMethod.GET)
     public R valueMul(@PathVariable("xColumnName") String xColumnName,@RequestParam String yColumnNameMul, HttpServletRequest request) {
         String[] yColumnNames = yColumnNameMul.split(",");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -258,7 +259,7 @@ public class ZukebaozhangxiufuController {
     /**
      * （按值统计）时间统计类型
      */
-    @RequestMapping("/value/{xColumnName}/{yColumnName}/{timeStatType}")
+    @RequestMapping(value = "/value/{xColumnName}/{yColumnName}/{timeStatType}", method = RequestMethod.GET)
     public R valueDay(@PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName, @PathVariable("timeStatType") String timeStatType,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("xColumn", xColumnName);
@@ -284,7 +285,7 @@ public class ZukebaozhangxiufuController {
     /**
      * （按值统计）时间统计类型(多)
      */
-    @RequestMapping("/valueMul/{xColumnName}/{timeStatType}")
+    @RequestMapping(value = "/valueMul/{xColumnName}/{timeStatType}", method = RequestMethod.GET)
     public R valueMulDay(@PathVariable("xColumnName") String xColumnName, @PathVariable("timeStatType") String timeStatType,@RequestParam String yColumnNameMul,HttpServletRequest request) {
         String[] yColumnNames = yColumnNameMul.split(",");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -315,7 +316,7 @@ public class ZukebaozhangxiufuController {
     /**
      * 分组统计
      */
-    @RequestMapping("/group/{columnName}")
+    @RequestMapping(value = "/group/{columnName}", method = RequestMethod.GET)
     public R group(@PathVariable("columnName") String columnName,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("column", columnName);

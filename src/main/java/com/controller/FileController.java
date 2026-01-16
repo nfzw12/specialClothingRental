@@ -22,6 +22,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +46,7 @@ public class FileController{
 	/**
 	 * 上传文件
 	 */
-	@RequestMapping("/upload")
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
     @IgnoreAuth
 	public R upload(@RequestParam("file") MultipartFile file,String type) throws Exception {
 		if (file.isEmpty()) {
@@ -91,7 +92,7 @@ public class FileController{
 	 * 下载文件
 	 */
 	@IgnoreAuth
-	@RequestMapping("/download")
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> download(@RequestParam String fileName) {
 		try {
 			File path = new File(ResourceUtils.getURL("classpath:static").getPath());

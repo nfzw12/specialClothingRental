@@ -48,6 +48,16 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return false;
         }
         
+        // 直接放行Swagger/Knife4j相关路径
+        String requestURI = request.getRequestURI();
+        if (requestURI.contains("doc.html") || 
+            requestURI.contains("v2/api-docs") || 
+            requestURI.contains("swagger-resources") || 
+            requestURI.contains("swagger-ui.html") || 
+            requestURI.contains("webjars")) {
+            return true;
+        }
+        
         IgnoreAuth annotation;
         if (handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);

@@ -25,6 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -72,7 +73,7 @@ public class YonghuController {
 		@ApiImplicitParam(name = "captcha", value = "验证码", required = false, dataType = "String")
 	})
 	@IgnoreAuth
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public R login(String username, String password, String captcha, HttpServletRequest request) {
 		YonghuEntity u = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("yonghuzhanghao", username));
 		if(u==null || !u.getMima().equals(password)) {
@@ -90,7 +91,7 @@ public class YonghuController {
 	@ApiOperation("用户注册")
 	@ApiImplicitParam(name = "yonghu", value = "用户信息", required = true, dataType = "YonghuEntity")
 	@IgnoreAuth
-    @RequestMapping("/register")
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public R register(@RequestBody YonghuEntity yonghu){
     	//ValidatorUtils.validateEntity(yonghu);
     	YonghuEntity u = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("yonghuzhanghao", yonghu.getYonghuzhanghao()));
@@ -108,7 +109,7 @@ public class YonghuController {
 	 * 退出
 	 */
 	@ApiOperation("用户退出登录")
-	@RequestMapping("/logout")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public R logout(HttpServletRequest request) {
 		request.getSession().invalidate();
 		return R.ok("退出成功");
@@ -117,7 +118,7 @@ public class YonghuController {
 	/**
      * 获取用户的session用户信息
      */
-    @RequestMapping("/session")
+    @RequestMapping(value = "/session", method = RequestMethod.GET)
     public R getCurrUser(HttpServletRequest request){
     	Long id = (Long)request.getSession().getAttribute("userId");
         YonghuEntity u = yonghuService.selectById(id);
@@ -128,7 +129,7 @@ public class YonghuController {
      * 密码重置
      */
     @IgnoreAuth
-	@RequestMapping(value = "/resetPass")
+	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
     public R resetPass(String username, HttpServletRequest request){
     	YonghuEntity u = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("yonghuzhanghao", username));
     	if(u==null) {
@@ -143,7 +144,7 @@ public class YonghuController {
     /**
      * 后端列表
      */
-    @RequestMapping("/page")
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     public R page(@RequestParam Map<String, Object> params,YonghuEntity yonghu,
 		HttpServletRequest request){
         EntityWrapper<YonghuEntity> ew = new EntityWrapper<YonghuEntity>();
@@ -157,7 +158,7 @@ public class YonghuController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params,YonghuEntity yonghu, 
 		HttpServletRequest request){
         EntityWrapper<YonghuEntity> ew = new EntityWrapper<YonghuEntity>();
@@ -169,17 +170,17 @@ public class YonghuController {
 	/**
      * 列表
      */
-    @RequestMapping("/lists")
+    @RequestMapping(value = "/lists", method = RequestMethod.GET)
     public R list( YonghuEntity yonghu){
-       	EntityWrapper<YonghuEntity> ew = new EntityWrapper<YonghuEntity>();
-      	ew.allEq(MPUtil.allEQMapPre( yonghu, "yonghu")); 
+        	EntityWrapper<YonghuEntity> ew = new EntityWrapper<YonghuEntity>();
+       	ew.allEq(MPUtil.allEQMapPre( yonghu, "yonghu")); 
         return R.ok().put("data", yonghuService.selectListView(ew));
     }
 
 	 /**
      * 查询
      */
-    @RequestMapping("/query")
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     public R query(YonghuEntity yonghu){
         EntityWrapper< YonghuEntity> ew = new EntityWrapper< YonghuEntity>();
  		ew.allEq(MPUtil.allEQMapPre( yonghu, "yonghu")); 
@@ -190,7 +191,7 @@ public class YonghuController {
     /**
      * 后端详情
      */
-    @RequestMapping("/info/{id}")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id){
         YonghuEntity yonghu = yonghuService.selectById(id);
         return R.ok().put("data", yonghu);
@@ -200,7 +201,7 @@ public class YonghuController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping("/detail/{id}")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public R detail(@PathVariable("id") Long id){
         YonghuEntity yonghu = yonghuService.selectById(id);
         return R.ok().put("data", yonghu);
@@ -212,7 +213,7 @@ public class YonghuController {
     /**
      * 后端保存
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody YonghuEntity yonghu, HttpServletRequest request){
     	yonghu.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yonghu);
@@ -228,7 +229,7 @@ public class YonghuController {
     /**
      * 前端保存
      */
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public R add(@RequestBody YonghuEntity yonghu, HttpServletRequest request){
     	yonghu.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yonghu);
@@ -246,7 +247,7 @@ public class YonghuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @Transactional
     public R update(@RequestBody YonghuEntity yonghu, HttpServletRequest request){
         //ValidatorUtils.validateEntity(yonghu);
@@ -256,12 +257,10 @@ public class YonghuController {
 
 
 
-    
-
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids){
         yonghuService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

@@ -20,6 +20,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +55,7 @@ public class CommonController{
 	 * @return
 	 */
 	@IgnoreAuth
-	@RequestMapping("/option/{tableName}/{columnName}")
+	@RequestMapping(value = "/option/{tableName}/{columnName}", method = RequestMethod.GET)
 	public R getOption(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName,@RequestParam(required = false) String conditionColumn,@RequestParam(required = false) String conditionValue,String level,String parent) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
@@ -82,7 +83,7 @@ public class CommonController{
 	 * @return
 	 */
 	@IgnoreAuth
-	@RequestMapping("/follow/{tableName}/{columnName}")
+	@RequestMapping(value = "/follow/{tableName}/{columnName}", method = RequestMethod.GET)
 	public R getFollowByOption(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName, @RequestParam String columnValue) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
@@ -98,7 +99,7 @@ public class CommonController{
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("/sh/{tableName}")
+	@RequestMapping(value = "/sh/{tableName}", method = RequestMethod.PUT)
 	public R sh(@PathVariable("tableName") String tableName, @RequestBody Map<String, Object> map) {
 		map.put("table", tableName);
 		commonService.sh(map);
@@ -114,7 +115,7 @@ public class CommonController{
 	 * @return
 	 */
 	@IgnoreAuth
-	@RequestMapping("/remind/{tableName}/{columnName}/{type}")
+	@RequestMapping(value = "/remind/{tableName}/{columnName}/{type}", method = RequestMethod.GET)
 	public R remindCount(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName, 
 						 @PathVariable("type") String type,@RequestParam Map<String, Object> map) {
 		map.put("table", tableName);
@@ -150,7 +151,7 @@ public class CommonController{
 	 * 单列求和
 	 */
 	@IgnoreAuth
-	@RequestMapping("/cal/{tableName}/{columnName}")
+	@RequestMapping(value = "/cal/{tableName}/{columnName}", method = RequestMethod.GET)
 	public R cal(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
@@ -163,7 +164,7 @@ public class CommonController{
 	 * 分组统计
 	 */
 	@IgnoreAuth
-	@RequestMapping("/group/{tableName}/{columnName}")
+	@RequestMapping(value = "/group/{tableName}/{columnName}", method = RequestMethod.GET)
 	public R group(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
@@ -184,7 +185,7 @@ public class CommonController{
 	 * （按值统计）
 	 */
 	@IgnoreAuth
-	@RequestMapping("/value/{tableName}/{xColumnName}/{yColumnName}")
+	@RequestMapping(value = "/value/{tableName}/{xColumnName}/{yColumnName}", method = RequestMethod.GET)
 	public R value(@PathVariable("tableName") String tableName, @PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
@@ -206,7 +207,7 @@ public class CommonController{
  	 * （按值统计）时间统计类型
 	 */
 	@IgnoreAuth
-	@RequestMapping("/value/{tableName}/{xColumnName}/{yColumnName}/{timeStatType}")
+	@RequestMapping(value = "/value/{tableName}/{xColumnName}/{yColumnName}/{timeStatType}", method = RequestMethod.GET)
 	public R valueDay(@PathVariable("tableName") String tableName, @PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName, @PathVariable("timeStatType") String timeStatType) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
