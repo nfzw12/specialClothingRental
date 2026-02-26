@@ -1,0 +1,79 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input" bindtap="goSearch">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索服装...</text>
+    </view>
+  </view>
+  
+  <!-- 轮播图 -->
+  <view class="banner">
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{bannerList}}" wx:key="index">
+        <swiper-item>
+          <image src="{{item.imageUrl}}" mode="aspectFill" bindtap="goBannerDetail" data-id="{{item.id}}"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  
+  <!-- 分类导航 -->
+  <view class="category">
+    <text class="category-title">服装分类</text>
+    <view class="category-list">
+      <block wx:for="{{categoryList}}" wx:key="id">
+        <view class="category-item" bindtap="goCategory" data-id="{{item.id}}">
+          <image src="{{item.iconUrl}}" mode="aspectFit"></image>
+          <text>{{item.name}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  
+  <!-- 热门服装 -->
+  <view class="hot-fuzhuang">
+    <view class="section-header">
+      <text class="section-title">热门服装</text>
+      <navigator url="/pages/fuzhuang/list" class="more">更多</navigator>
+    </view>
+    <view class="fuzhuang-list">
+      <block wx:for="{{hotFuzhuangList}}" wx:key="id">
+        <view class="fuzhuang-card" bindtap="goFuzhuangDetail" data-id="{{item.id}}">
+          <image src="{{item.tupian}}" mode="aspectFill" class="fuzhuang-card-image"></image>
+          <view class="fuzhuang-card-content">
+            <text class="fuzhuang-card-title">{{item.fuzhuangmingcheng}}</text>
+            <text class="fuzhuang-card-price">¥{{item.jiage}}/{{item.zujietype === '1' ? '天' : '月'}}</text>
+            <text class="fuzhuang-card-info">{{item.fuzhuangfenlei}} | {{item.fuzhuangpinpai}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+  
+  <!-- 最新订单 -->
+  <view class="latest-order">
+    <view class="section-header">
+      <text class="section-title">最新订单</text>
+      <navigator url="/pages/order/list" class="more">更多</navigator>
+    </view>
+    <view class="order-list">
+      <block wx:for="{{latestOrderList}}" wx:key="id">
+        <view class="order-item" bindtap="goOrderDetail" data-id="{{item.id}}">
+          <view class="order-info">
+            <text class="order-title">{{item.fuzhuangmingcheng}}</text>
+            <text class="order-status">{{item.status === 0 ? '待支付' : item.status === 1 ? '待发货' : '已完成'}}</text>
+          </view>
+          <view class="order-price">
+            <text class="price">¥{{item.totalPrice}}</text>
+            <text class="order-type">{{item.zujietype === '1' ? '日租' : '月租'}}</text>
+          </view>
+          <view class="order-time">{{item.addtime}}</view>
+        </view>
+      </block>
+      <view class="no-data" wx:if="{{latestOrderList.length === 0}}">
+        <text>暂无订单</text>
+      </view>
+    </view>
+  </view>
+</view>

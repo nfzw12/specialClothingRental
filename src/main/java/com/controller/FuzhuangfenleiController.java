@@ -21,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -60,7 +59,7 @@ public class FuzhuangfenleiController {
     /**
      * 后端列表
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,FuzhuangfenleiEntity fuzhuangfenlei,
 		HttpServletRequest request){
         EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
@@ -74,7 +73,7 @@ public class FuzhuangfenleiController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,FuzhuangfenleiEntity fuzhuangfenlei, 
 		HttpServletRequest request){
         EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
@@ -86,7 +85,7 @@ public class FuzhuangfenleiController {
 	/**
      * 列表
      */
-    @RequestMapping(value = "/lists", method = RequestMethod.GET)
+    @RequestMapping("/lists")
     public R list( FuzhuangfenleiEntity fuzhuangfenlei){
        	EntityWrapper<FuzhuangfenleiEntity> ew = new EntityWrapper<FuzhuangfenleiEntity>();
       	ew.allEq(MPUtil.allEQMapPre( fuzhuangfenlei, "fuzhuangfenlei")); 
@@ -96,7 +95,7 @@ public class FuzhuangfenleiController {
 	 /**
      * 查询
      */
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping("/query")
     public R query(FuzhuangfenleiEntity fuzhuangfenlei){
         EntityWrapper< FuzhuangfenleiEntity> ew = new EntityWrapper< FuzhuangfenleiEntity>();
  		ew.allEq(MPUtil.allEQMapPre( fuzhuangfenlei, "fuzhuangfenlei")); 
@@ -107,7 +106,7 @@ public class FuzhuangfenleiController {
     /**
      * 后端详情
      */
-    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         FuzhuangfenleiEntity fuzhuangfenlei = fuzhuangfenleiService.selectById(id);
         return R.ok().put("data", fuzhuangfenlei);
@@ -117,7 +116,7 @@ public class FuzhuangfenleiController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
         FuzhuangfenleiEntity fuzhuangfenlei = fuzhuangfenleiService.selectById(id);
         return R.ok().put("data", fuzhuangfenlei);
@@ -129,9 +128,9 @@ public class FuzhuangfenleiController {
     /**
      * 后端保存
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping("/save")
     public R save(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
-    	fuzhuangfenlei.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	fuzhuangfenlei.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
         fuzhuangfenleiService.insert(fuzhuangfenlei);
         return R.ok();
@@ -140,9 +139,9 @@ public class FuzhuangfenleiController {
     /**
      * 前端保存
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping("/add")
     public R add(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
-    	fuzhuangfenlei.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	fuzhuangfenlei.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
         fuzhuangfenleiService.insert(fuzhuangfenlei);
         return R.ok();
@@ -153,7 +152,7 @@ public class FuzhuangfenleiController {
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping("/update")
     @Transactional
     public R update(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
         //ValidatorUtils.validateEntity(fuzhuangfenlei);
@@ -168,7 +167,7 @@ public class FuzhuangfenleiController {
     /**
      * 删除
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
         fuzhuangfenleiService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

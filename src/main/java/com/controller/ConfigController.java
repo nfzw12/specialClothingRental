@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +35,7 @@ public class ConfigController{
 	/**
      * 列表
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,ConfigEntity config){
         EntityWrapper<ConfigEntity> ew = new EntityWrapper<ConfigEntity>();
     	PageUtils page = configService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, config), params), params));
@@ -47,7 +46,7 @@ public class ConfigController{
      * 列表
      */
     @IgnoreAuth
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,ConfigEntity config){
         EntityWrapper<ConfigEntity> ew = new EntityWrapper<ConfigEntity>();
     	PageUtils page = configService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, config), params), params));
@@ -57,7 +56,7 @@ public class ConfigController{
     /**
      * 信息
      */
-    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") String id){
         ConfigEntity config = configService.selectById(id);
         return R.ok().put("data", config);
@@ -67,7 +66,7 @@ public class ConfigController{
      * 详情
      */
     @IgnoreAuth
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") String id){
         ConfigEntity config = configService.selectById(id);
         return R.ok().put("data", config);
@@ -76,7 +75,7 @@ public class ConfigController{
     /**
      * 根据name获取信息
      */
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @RequestMapping("/info")
     public R infoByName(@RequestParam String name){
         ConfigEntity config = configService.selectOne(new EntityWrapper<ConfigEntity>().eq("name", "faceFile"));
         return R.ok().put("data", config);
@@ -95,7 +94,7 @@ public class ConfigController{
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping("/update")
     public R update(@RequestBody ConfigEntity config){
 //        ValidatorUtils.validateEntity(config);
         configService.updateById(config);//全部更新
@@ -105,7 +104,7 @@ public class ConfigController{
     /**
      * 删除
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
     	configService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

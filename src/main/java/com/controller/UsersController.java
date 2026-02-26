@@ -14,11 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.annotation.IgnoreAuth;
@@ -50,7 +49,7 @@ public class UsersController{
 	 * 登录
 	 */
 	@IgnoreAuth
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login")
 	public R login(String username, String password, String captcha, HttpServletRequest request) {
 		UsersEntity user = userService.selectOne(new EntityWrapper<UsersEntity>().eq("username", username));
 		if(user==null || !user.getPassword().equals(password)) {
@@ -87,7 +86,7 @@ public class UsersController{
      * 密码重置
      */
     @IgnoreAuth
-	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
+	@RequestMapping(value = "/resetPass")
     public R resetPass(String username, HttpServletRequest request){
     	UsersEntity user = userService.selectOne(new EntityWrapper<UsersEntity>().eq("username", username));
     	if(user==null) {
@@ -101,7 +100,7 @@ public class UsersController{
 	/**
      * 列表
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,UsersEntity user){
         EntityWrapper<UsersEntity> ew = new EntityWrapper<UsersEntity>();
     	PageUtils page = userService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.allLike(ew, user), params), params));
@@ -111,7 +110,7 @@ public class UsersController{
 	/**
      * 列表
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping("/list")
     public R list( UsersEntity user){
        	EntityWrapper<UsersEntity> ew = new EntityWrapper<UsersEntity>();
       	ew.allEq(MPUtil.allEQMapPre( user, "user")); 
@@ -121,7 +120,7 @@ public class UsersController{
     /**
      * 信息
      */
-    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") String id){
         UsersEntity user = userService.selectById(id);
         return R.ok().put("data", user);
@@ -130,7 +129,7 @@ public class UsersController{
     /**
      * 获取用户的session用户信息
      */
-    @RequestMapping(value = "/session", method = RequestMethod.GET)
+    @RequestMapping("/session")
     public R getCurrUser(HttpServletRequest request){
     	Long id = (Long)request.getSession().getAttribute("userId");
         UsersEntity user = userService.selectById(id);
@@ -153,7 +152,7 @@ public class UsersController{
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping("/update")
     public R update(@RequestBody UsersEntity user){
 //        ValidatorUtils.validateEntity(user);
     	UsersEntity u = userService.selectOne(new EntityWrapper<UsersEntity>().eq("username", user.getUsername()));
@@ -167,7 +166,7 @@ public class UsersController{
     /**
      * 删除
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
         userService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

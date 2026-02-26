@@ -1,0 +1,50 @@
+<view class="container">
+  <view class="login-box">
+    <view class="logo">
+      <text class="logo-text">服装租借管理系统</text>
+    </view>
+    
+    <form bindsubmit="login">
+      <view class="form-item">
+        <input 
+          name="username" 
+          placeholder="请输入用户名" 
+          class="input" 
+          bindinput="onInput"
+          data-field="username"
+        />
+      </view>
+      
+      <view class="form-item">
+        <input 
+          name="password" 
+          placeholder="请输入密码" 
+          type="password" 
+          class="input" 
+          bindinput="onInput"
+          data-field="password"
+        />
+      </view>
+      
+      <view class="form-item captcha">
+        <input 
+          name="captcha" 
+          placeholder="请输入验证码" 
+          class="input captcha-input" 
+          bindinput="onInput"
+          data-field="captcha"
+        />
+        <view class="captcha-img">
+          <image src="{{captchaUrl}}" mode="aspectFit" bindtap="refreshCaptcha"></image>
+        </view>
+      </view>
+      
+      <button type="primary" formType="submit" class="btn login-btn">登录</button>
+    </form>
+    
+    <view class="links">
+      <navigator url="/pages/login/register" class="link">注册新用户</navigator>
+      <navigator url="/pages/login/forgot" class="link">忘记密码</navigator>
+    </view>
+  </view>
+</view>

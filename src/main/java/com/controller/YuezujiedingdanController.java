@@ -21,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -60,7 +59,7 @@ public class YuezujiedingdanController {
     /**
      * 后端列表
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,YuezujiedingdanEntity yuezujiedingdan,
 		HttpServletRequest request){
 		String tableName = request.getSession().getAttribute("tableName").toString();
@@ -78,7 +77,7 @@ public class YuezujiedingdanController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,YuezujiedingdanEntity yuezujiedingdan, 
 		HttpServletRequest request){
         EntityWrapper<YuezujiedingdanEntity> ew = new EntityWrapper<YuezujiedingdanEntity>();
@@ -90,7 +89,7 @@ public class YuezujiedingdanController {
 	/**
      * 列表
      */
-    @RequestMapping(value = "/lists", method = RequestMethod.GET)
+    @RequestMapping("/lists")
     public R list( YuezujiedingdanEntity yuezujiedingdan){
        	EntityWrapper<YuezujiedingdanEntity> ew = new EntityWrapper<YuezujiedingdanEntity>();
       	ew.allEq(MPUtil.allEQMapPre( yuezujiedingdan, "yuezujiedingdan")); 
@@ -100,7 +99,7 @@ public class YuezujiedingdanController {
 	 /**
      * 查询
      */
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping("/query")
     public R query(YuezujiedingdanEntity yuezujiedingdan){
         EntityWrapper< YuezujiedingdanEntity> ew = new EntityWrapper< YuezujiedingdanEntity>();
  		ew.allEq(MPUtil.allEQMapPre( yuezujiedingdan, "yuezujiedingdan")); 
@@ -111,7 +110,7 @@ public class YuezujiedingdanController {
     /**
      * 后端详情
      */
-    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         YuezujiedingdanEntity yuezujiedingdan = yuezujiedingdanService.selectById(id);
         return R.ok().put("data", yuezujiedingdan);
@@ -121,7 +120,7 @@ public class YuezujiedingdanController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
         YuezujiedingdanEntity yuezujiedingdan = yuezujiedingdanService.selectById(id);
         return R.ok().put("data", yuezujiedingdan);
@@ -133,9 +132,9 @@ public class YuezujiedingdanController {
     /**
      * 后端保存
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping("/save")
     public R save(@RequestBody YuezujiedingdanEntity yuezujiedingdan, HttpServletRequest request){
-    	yuezujiedingdan.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	yuezujiedingdan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yuezujiedingdan);
         yuezujiedingdanService.insert(yuezujiedingdan);
         return R.ok();
@@ -144,9 +143,9 @@ public class YuezujiedingdanController {
     /**
      * 前端保存
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping("/add")
     public R add(@RequestBody YuezujiedingdanEntity yuezujiedingdan, HttpServletRequest request){
-    	yuezujiedingdan.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	yuezujiedingdan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yuezujiedingdan);
         yuezujiedingdanService.insert(yuezujiedingdan);
         return R.ok();
@@ -157,7 +156,7 @@ public class YuezujiedingdanController {
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping("/update")
     @Transactional
     public R update(@RequestBody YuezujiedingdanEntity yuezujiedingdan, HttpServletRequest request){
         //ValidatorUtils.validateEntity(yuezujiedingdan);
@@ -172,7 +171,7 @@ public class YuezujiedingdanController {
     /**
      * 删除
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
         yuezujiedingdanService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();

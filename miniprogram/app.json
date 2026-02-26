@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/fuzhuang/list",
+    "pages/fuzhuang/detail",
+    "pages/order/list",
+    "pages/order/detail",
+    "pages/order/create",
+    "pages/zujiehetong/zujiehetong",
+    "pages/zukebaozhang/zukebaozhang",
+    "pages/user/user"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1677FF",
+    "navigationBarTitleText": "服装租借管理系统",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#1677FF",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/fuzhuang/list",
+        "text": "服装"
+      },
+      {
+        "pagePath": "pages/order/list",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

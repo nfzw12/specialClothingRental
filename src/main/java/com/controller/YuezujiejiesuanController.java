@@ -21,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -60,7 +59,7 @@ public class YuezujiejiesuanController {
     /**
      * 后端列表
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,YuezujiejiesuanEntity yuezujiejiesuan,
 		HttpServletRequest request){
 		String tableName = request.getSession().getAttribute("tableName").toString();
@@ -78,7 +77,7 @@ public class YuezujiejiesuanController {
      * 前端列表
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,YuezujiejiesuanEntity yuezujiejiesuan, 
 		HttpServletRequest request){
         EntityWrapper<YuezujiejiesuanEntity> ew = new EntityWrapper<YuezujiejiesuanEntity>();
@@ -90,7 +89,7 @@ public class YuezujiejiesuanController {
 	/**
      * 列表
      */
-    @RequestMapping(value = "/lists", method = RequestMethod.GET)
+    @RequestMapping("/lists")
     public R list( YuezujiejiesuanEntity yuezujiejiesuan){
        	EntityWrapper<YuezujiejiesuanEntity> ew = new EntityWrapper<YuezujiejiesuanEntity>();
       	ew.allEq(MPUtil.allEQMapPre( yuezujiejiesuan, "yuezujiejiesuan")); 
@@ -100,7 +99,7 @@ public class YuezujiejiesuanController {
 	 /**
      * 查询
      */
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping("/query")
     public R query(YuezujiejiesuanEntity yuezujiejiesuan){
         EntityWrapper< YuezujiejiesuanEntity> ew = new EntityWrapper< YuezujiejiesuanEntity>();
  		ew.allEq(MPUtil.allEQMapPre( yuezujiejiesuan, "yuezujiejiesuan")); 
@@ -111,7 +110,7 @@ public class YuezujiejiesuanController {
     /**
      * 后端详情
      */
-    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         YuezujiejiesuanEntity yuezujiejiesuan = yuezujiejiesuanService.selectById(id);
         return R.ok().put("data", yuezujiejiesuan);
@@ -121,7 +120,7 @@ public class YuezujiejiesuanController {
      * 前端详情
      */
 	@IgnoreAuth
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
         YuezujiejiesuanEntity yuezujiejiesuan = yuezujiejiesuanService.selectById(id);
         return R.ok().put("data", yuezujiejiesuan);
@@ -133,9 +132,9 @@ public class YuezujiejiesuanController {
     /**
      * 后端保存
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping("/save")
     public R save(@RequestBody YuezujiejiesuanEntity yuezujiejiesuan, HttpServletRequest request){
-    	yuezujiejiesuan.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	yuezujiejiesuan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yuezujiejiesuan);
         yuezujiejiesuanService.insert(yuezujiejiesuan);
         return R.ok();
@@ -144,9 +143,9 @@ public class YuezujiejiesuanController {
     /**
      * 前端保存
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping("/add")
     public R add(@RequestBody YuezujiejiesuanEntity yuezujiejiesuan, HttpServletRequest request){
-    	yuezujiejiesuan.setId(new Date().getTime()+Double.valueOf(Math.floor(Math.random()*1000)).longValue());
+    	yuezujiejiesuan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(yuezujiejiesuan);
         yuezujiejiesuanService.insert(yuezujiejiesuan);
         return R.ok();
@@ -157,7 +156,7 @@ public class YuezujiejiesuanController {
     /**
      * 修改
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping("/update")
     @Transactional
     public R update(@RequestBody YuezujiejiesuanEntity yuezujiejiesuan, HttpServletRequest request){
         //ValidatorUtils.validateEntity(yuezujiejiesuan);
@@ -188,7 +187,7 @@ public class YuezujiejiesuanController {
     /**
      * 删除
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
         yuezujiejiesuanService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
@@ -204,7 +203,7 @@ public class YuezujiejiesuanController {
     /**
      * （按值统计）
      */
-    @RequestMapping(value = "/value/{xColumnName}/{yColumnName}", method = RequestMethod.GET)
+    @RequestMapping("/value/{xColumnName}/{yColumnName}")
     public R value(@PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("xColumn", xColumnName);
@@ -229,7 +228,7 @@ public class YuezujiejiesuanController {
     /**
      * （按值统计(多)）
      */
-    @RequestMapping(value = "/valueMul/{xColumnName}", method = RequestMethod.GET)
+    @RequestMapping("/valueMul/{xColumnName}")
     public R valueMul(@PathVariable("xColumnName") String xColumnName,@RequestParam String yColumnNameMul, HttpServletRequest request) {
         String[] yColumnNames = yColumnNameMul.split(",");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -259,7 +258,7 @@ public class YuezujiejiesuanController {
     /**
      * （按值统计）时间统计类型
      */
-    @RequestMapping(value = "/value/{xColumnName}/{yColumnName}/{timeStatType}", method = RequestMethod.GET)
+    @RequestMapping("/value/{xColumnName}/{yColumnName}/{timeStatType}")
     public R valueDay(@PathVariable("yColumnName") String yColumnName, @PathVariable("xColumnName") String xColumnName, @PathVariable("timeStatType") String timeStatType,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("xColumn", xColumnName);
@@ -285,7 +284,7 @@ public class YuezujiejiesuanController {
     /**
      * （按值统计）时间统计类型(多)
      */
-    @RequestMapping(value = "/valueMul/{xColumnName}/{timeStatType}", method = RequestMethod.GET)
+    @RequestMapping("/valueMul/{xColumnName}/{timeStatType}")
     public R valueMulDay(@PathVariable("xColumnName") String xColumnName, @PathVariable("timeStatType") String timeStatType,@RequestParam String yColumnNameMul,HttpServletRequest request) {
         String[] yColumnNames = yColumnNameMul.split(",");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -316,7 +315,7 @@ public class YuezujiejiesuanController {
     /**
      * 分组统计
      */
-    @RequestMapping(value = "/group/{columnName}", method = RequestMethod.GET)
+    @RequestMapping("/group/{columnName}")
     public R group(@PathVariable("columnName") String columnName,HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("column", columnName);
