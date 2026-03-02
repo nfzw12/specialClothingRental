@@ -94,6 +94,12 @@ public class FuzhuangxinxiEntity<T> implements Serializable {
 	private Integer fuzhuangjiage;
 	
 	/**
+	 * 服装原价
+	 */
+				
+	private Double price;
+	
+	/**
 	 * 库存
 	 */
 					
@@ -207,6 +213,18 @@ public class FuzhuangxinxiEntity<T> implements Serializable {
 	 */
 	public Integer getFuzhuangjiage() {
 		return fuzhuangjiage;
+	}
+	/**
+	 * 设置：服装原价
+	 */
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	/**
+	 * 获取：服装原价
+	 */
+	public Double getPrice() {
+		return price;
 	}
 	/**
 	 * 设置：库存

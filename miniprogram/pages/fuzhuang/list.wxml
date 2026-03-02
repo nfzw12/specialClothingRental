@@ -1,2 +1,46 @@
 <!--pages/fuzhuang/list.wxml-->
-<text>pages/fuzhuang/list.wxml</text>
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input" bindtap="goSearch">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索服装...</text>
+    </view>
+  </view>
+  
+  <!-- 分类导航 -->
+  <view class="category-nav">
+    <scroll-view scroll-x="true" class="category-scroll">
+      <view class="category-item {{activeCategory === 0 ? 'active' : ''}}" bindtap="switchCategory" data-id="0">
+        <text>全部</text>
+      </view>
+      <block wx:for="{{categories}}" wx:key="id">
+        <view class="category-item {{activeCategory === item.id ? 'active' : ''}}" bindtap="switchCategory" data-id="{{item.id}}">
+          <text>{{item.fuzhuangfenlei}}</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+  
+  <!-- 服装列表 -->
+  <view class="fuzhuang-list">
+    <block wx:for="{{fuzhuangList}}" wx:key="id">
+      <view class="fuzhuang-card" bindtap="goFuzhuangDetail" data-id="{{item.id}}">
+        <!-- 图片区 -->
+        <image class="fuzhuang-card-img" src="{{item.tupian}}" mode="aspectFill" />
+        
+        <!-- 信息区 -->
+        <view class="fuzhuang-card-info-wrapper">
+          <!-- 标题区 -->
+          <view class="fuzhuang-card-title">{{item.fuzhuangmingcheng}}</view>
+          <view class="fuzhuang-card-tag">{{item.fuzhuangfenlei}}</view>
+          <!-- 价格区 -->
+          <view class="fuzhuang-card-price">¥{{item.jiage || 0}}/天</view>
+        </view>
+      </view>
+    </block>
+    <view class="no-data" wx:if="{{fuzhuangList.length === 0}}">
+      <text>暂无服装</text>
+    </view>
+  </view>
+</view>

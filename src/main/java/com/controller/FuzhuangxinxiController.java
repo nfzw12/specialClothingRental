@@ -28,10 +28,12 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.annotation.IgnoreAuth;
 
 import com.entity.FuzhuangxinxiEntity;
+import com.entity.ClothingSizeEntity;
 import com.entity.view.FuzhuangxinxiView;
 
 import com.service.FuzhuangxinxiService;
 import com.service.TokenService;
+import com.service.ClothingSizeService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -51,6 +53,9 @@ import java.io.IOException;
 public class FuzhuangxinxiController {
     @Autowired
     private FuzhuangxinxiService fuzhuangxinxiService;
+    
+    @Autowired
+    private ClothingSizeService clothingSizeService;
 
 
     
@@ -119,7 +124,9 @@ public class FuzhuangxinxiController {
     @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
         FuzhuangxinxiEntity fuzhuangxinxi = fuzhuangxinxiService.selectById(id);
-        return R.ok().put("data", fuzhuangxinxi);
+        // 查询服装尺码信息
+        List<ClothingSizeEntity> sizes = clothingSizeService.selectByClothingId(fuzhuangxinxi.getId().toString());
+        return R.ok().put("data", fuzhuangxinxi).put("sizes", sizes);
     }
     
 
@@ -130,7 +137,8 @@ public class FuzhuangxinxiController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody FuzhuangxinxiEntity fuzhuangxinxi, HttpServletRequest request){
-    	fuzhuangxinxi.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	fuzhuangxinxi.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(fuzhuangxinxi);
         fuzhuangxinxiService.insert(fuzhuangxinxi);
         return R.ok();
@@ -141,7 +149,8 @@ public class FuzhuangxinxiController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody FuzhuangxinxiEntity fuzhuangxinxi, HttpServletRequest request){
-    	fuzhuangxinxi.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	fuzhuangxinxi.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(fuzhuangxinxi);
         fuzhuangxinxiService.insert(fuzhuangxinxi);
         return R.ok();

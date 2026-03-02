@@ -59,6 +59,12 @@ public class FuzhuangxinxiVO  implements Serializable {
 	private Integer fuzhuangjiage;
 		
 	/**
+	 * 服装原价
+	 */
+
+	private Double price;
+		
+	/**
 	 * 库存
 	 */
 	
@@ -158,15 +164,31 @@ public class FuzhuangxinxiVO  implements Serializable {
 	public void setFuzhuangjiage(Integer fuzhuangjiage) {
 		this.fuzhuangjiage = fuzhuangjiage;
 	}
-	
+
 	/**
 	 * 获取：服装价格
 	 */
 	public Integer getFuzhuangjiage() {
 		return fuzhuangjiage;
 	}
-				
-	
+			
+
+	/**
+	 * 设置：服装原价
+	 */
+	 
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	/**
+	 * 获取：服装原价
+	 */
+	public Double getPrice() {
+		return price;
+	}
+		
+
 	/**
 	 * 设置：库存
 	 */

@@ -99,9 +99,9 @@ Page({
             .then(res => {
                 console.log('加载当前用户信息成功:', res)
                 // 更新全局用户信息
-                app.login(res.data.userinfo, app.globalData.token)
+                app.login(res.data.data, app.globalData.token)
                 that.setData({
-                    userInfo: res.data.userinfo || that.data.userInfo,
+                    userInfo: res.data.data || that.data.userInfo,
                     isLogin: true
                 })
             })
@@ -149,20 +149,44 @@ Page({
         })
     },
     
-    // 跳转到对应页面
-    goToPage(e) {
-        const url = e.currentTarget.dataset.url
-        if (url) {
-            wx.navigateTo({
-                url: url
-            })
-        } else {
-            wx.showToast({
-                title: '功能开发中',
-                icon: 'none',
-                duration: 2000
-            })
-        }
+    // 跳转到订单列表
+    goOrderList(e) {
+        const status = e.currentTarget.dataset.status || 0
+        wx.navigateTo({
+            url: `/pages/order/list?status=${status}`
+        })
+    },
+    
+    // 跳转到租借合同页面
+    goZujiehetong() {
+        wx.navigateTo({
+            url: '/pages/zujiehetong/zujiehetong'
+        })
+    },
+    
+    // 跳转到租客保障页面
+    goZukebaozhang() {
+        wx.navigateTo({
+            url: '/pages/zukebaozhang/zukebaozhang'
+        })
+    },
+    
+    // 跳转到设置页面
+    goSettings() {
+        wx.showToast({
+            title: '设置功能开发中',
+            icon: 'none',
+            duration: 2000
+        })
+    },
+    
+    // 跳转到关于我们页面
+    goAbout() {
+        wx.showToast({
+            title: '关于我们功能开发中',
+            icon: 'none',
+            duration: 2000
+        })
     },
     
     // 退出登录

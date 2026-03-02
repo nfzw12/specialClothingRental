@@ -18,7 +18,7 @@ const fuzhuangApi = {
   // 获取服装列表
   getList: (data) => request.get('/fuzhuangxinxi/list', data),
   // 获取服装详情
-  getDetail: (id) => request.get(`/fuzhuangxinxi/info/${id}`),
+  getDetail: (id) => request.get(`/fuzhuangxinxi/detail/${id}`),
   // 获取服装分类
   getCategories: () => request.get('/fuzhuangfenlei/list')
 }
@@ -28,7 +28,7 @@ const orderApi = {
   // 获取订单列表
   getList: (data) => request.get('/rizujiedingdan/list', data),
   // 获取订单详情
-  getDetail: (id) => request.get(`/rizujiedingdan/info/${id}`),
+  getDetail: (id) => request.get(`/rizujiedingdan/detail/${id}`),
   // 创建订单
   create: (data) => request.post('/rizujiedingdan/save', data),
   // 删除订单

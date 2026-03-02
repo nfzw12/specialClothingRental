@@ -94,33 +94,35 @@ Page({
   },
   
   initData: function() {
-    // 直接使用默认数据，确保页面立即显示
-    this.setData({
-      bannerList: this.data.bannerList,
-      categoryList: this.data.categoryList,
-      hotFuzhuangList: this.data.hotFuzhuangList,
-      latestOrderList: this.data.latestOrderList
-    })
-    console.log('首页数据已加载', this.data)
+    // 加载数据
+    this.loadHotFuzhuang()
+    this.loadLatestOrders()
+    this.loadCategories()
   },
   
   // 加载热门服装数据
   loadHotFuzhuang: function() {
     const that = this
     
-    // 模拟API调用，使用setTimeout模拟网络请求
-    setTimeout(() => {
-      // 这里可以调用真实API，现在使用默认数据
-      console.log('热门服装数据加载完成')
-    }, 1000)
-    
-    // 真实API调用示例（注释掉，防止报错）
-    /*
+    // 真实API调用
     fuzhuangApi.getList({ page: 1, limit: 5 })
       .then(res => {
-        that.setData({
-          hotFuzhuangList: res.data.list || that.data.hotFuzhuangList
-        })
+        console.log('加载热门服装成功:', res)
+        // 确保数据结构正确
+        if (res.data && res.data.data && res.data.data.list) {
+          that.setData({
+            hotFuzhuangList: res.data.data.list || []
+          })
+        } else if (res.data && res.data.list) {
+          // 兼容不同的数据格式
+          that.setData({
+            hotFuzhuangList: res.data.list || []
+          })
+        } else {
+          that.setData({
+            hotFuzhuangList: []
+          })
+        }
       })
       .catch(err => {
         console.error('加载热门服装失败:', err)
@@ -129,26 +131,31 @@ Page({
           hotFuzhuangList: that.data.hotFuzhuangList
         })
       })
-    */
   },
   
   // 加载最新订单数据
   loadLatestOrders: function() {
     const that = this
     
-    // 模拟API调用，使用setTimeout模拟网络请求
-    setTimeout(() => {
-      // 这里可以调用真实API，现在使用默认数据
-      console.log('最新订单数据加载完成')
-    }, 1500)
-    
-    // 真实API调用示例（注释掉，防止报错）
-    /*
+    // 真实API调用
     orderApi.getList({ page: 1, limit: 3 })
       .then(res => {
-        that.setData({
-          latestOrderList: res.data.list || that.data.latestOrderList
-        })
+        console.log('加载最新订单成功:', res)
+        // 确保数据结构正确
+        if (res.data && res.data.data && res.data.data.list) {
+          that.setData({
+            latestOrderList: res.data.data.list || []
+          })
+        } else if (res.data && res.data.list) {
+          // 兼容不同的数据格式
+          that.setData({
+            latestOrderList: res.data.list || []
+          })
+        } else {
+          that.setData({
+            latestOrderList: []
+          })
+        }
       })
       .catch(err => {
         console.error('加载最新订单失败:', err)
@@ -157,7 +164,39 @@ Page({
           latestOrderList: that.data.latestOrderList
         })
       })
-    */
+  },
+  
+  // 加载分类数据
+  loadCategories: function() {
+    const that = this
+    
+    // 真实API调用
+    fuzhuangApi.getCategories()
+      .then(res => {
+        console.log('加载分类成功:', res)
+        // 确保数据结构正确
+        if (res.data && res.data.data && res.data.data.list) {
+          that.setData({
+            categoryList: res.data.data.list || []
+          })
+        } else if (res.data && res.data.list) {
+          // 兼容不同的数据格式
+          that.setData({
+            categoryList: res.data.list || []
+          })
+        } else {
+          that.setData({
+            categoryList: []
+          })
+        }
+      })
+      .catch(err => {
+        console.error('加载分类失败:', err)
+        // 使用默认数据，确保页面显示
+        that.setData({
+          categoryList: that.data.categoryList
+        })
+      })
   },
   
   // 跳转到搜索页面

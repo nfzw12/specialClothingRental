@@ -1,2 +1,128 @@
 <!--pages/fuzhuang/detail.wxml-->
-<text>pages/fuzhuang/detail.wxml</text>
+<view class="container">
+  <!-- 图片轮播 -->
+  <view class="image-carousel">
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{fuzhuangDetail.images}}" wx:key="index">
+        <swiper-item>
+          <image src="{{item}}" mode="aspectFill"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  
+  <!-- 基本信息 -->
+  <view class="basic-info">
+    <text class="fuzhuang-name">{{fuzhuangDetail.fuzhuangmingcheng}}</text>
+    <view class="price-container">
+      <text class="price">¥{{fuzhuangDetail.rizujin}}</text>
+      <text class="price-unit">/天</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">分类：</text>
+      <text class="info-value">{{fuzhuangDetail.fuzhuangfenlei}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">尺码：</text>
+      <view class="size-options">
+        <view wx:for="{{sizes}}" wx:key="index" 
+              class="size-item {{selectedSize === item.size ? 'selected' : ''}}"
+              bindtap="selectSize" data-size="{{item.size}}">
+          <text class="size-text">{{item.size}}</text>
+          <text class="size-qty">({{item.qty}}件)</text>
+        </view>
+        <view wx:if="{{sizes.length === 0}}" class="no-sizes">
+          <text>暂无尺码信息</text>
+        </view>
+      </view>
+    </view>
+    <view class="info-row">
+      <text class="info-label">颜色：</text>
+      <text class="info-value">{{fuzhuangDetail.fuzhuangyanse}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">材料：</text>
+      <text class="info-value">{{fuzhuangDetail.fuzhuangcailiao}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">库存：</text>
+      <text class="info-value">{{fuzhuangDetail.kucun}} 件</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">原价：</text>
+      <text class="info-value">¥{{fuzhuangDetail.price || 0}}</text>
+    </view>
+  </view>
+  
+  <!-- 购买选项 -->
+  <view class="purchase-options">
+    <view class="section-title">购买选项</view>
+    <view class="option-item" bindtap="selectOption" data-option="rizu">
+      <text class="option-label">日租</text>
+      <text class="option-price">¥{{fuzhuangDetail.rizujin}}/天 + 保证金¥{{fuzhuangDetail.baozhengjin}}</text>
+      <text class="option-check" wx:if="{{selectedOption === 'rizu'}}">✓</text>
+    </view>
+    <view class="option-item" bindtap="selectOption" data-option="changqi">
+      <text class="option-label">长期租赁（一周以上）</text>
+      <text class="option-price">¥{{fuzhuangDetail.changqirent}}/天 + 保证金¥{{fuzhuangDetail.baozhengjin}}</text>
+      <text class="option-check" wx:if="{{selectedOption === 'changqi'}}">✓</text>
+    </view>
+    <view class="option-item" bindtap="selectOption" data-option="goumai">
+      <text class="option-label">直接购买</text>
+      <text class="option-price">¥{{fuzhuangDetail.goumaijia}}</text>
+      <text class="option-check" wx:if="{{selectedOption === 'goumai'}}">✓</text>
+    </view>
+  </view>
+  
+  <!-- 详细描述 -->
+  <view class="description">
+    <view class="section-title">商品描述</view>
+    <view class="description-content">
+      <text>{{fuzhuangDetail.fuzhuangjieshao}}</text>
+    </view>
+  </view>
+  
+  <!-- 租借须知 -->
+  <view class="notice">
+    <view class="section-title">租借须知</view>
+    <view class="notice-content">
+      <view class="notice-item">
+        <text class="notice-icon">•</text>
+        <text class="notice-text">租借前请仔细检查服装是否有损坏</text>
+      </view>
+      <view class="notice-item">
+        <text class="notice-icon">•</text>
+        <text class="notice-text">租借期间请注意爱护服装</text>
+      </view>
+      <view class="notice-item">
+        <text class="notice-icon">•</text>
+        <text class="notice-text">归还时需保持服装清洁</text>
+      </view>
+      <view class="notice-item">
+        <text class="notice-icon">•</text>
+        <text class="notice-text">如有损坏需要照价赔偿</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="contact-btn" bindtap="contactService">
+      <text class="contact-icon">💬</text>
+      <text class="contact-text">客服</text>
+    </view>
+    <view class="add-cart-btn" bindtap="addToCart">
+      <text class="add-cart-icon">🛒</text>
+      <text class="add-cart-text">购物车</text>
+    </view>
+    <view class="rent-btn" bindtap="goRent">
+      <text class="rent-text">立即租借</text>
+    </view>
+  </view>
+  
+  <!-- 购物车按钮 -->
+  <navigator url="/pages/cart/cart" class="cart-navigator">
+    <text class="cart-navigator-icon">🛒</text>
+    <view wx:if="{{cartCount > 0}}" class="cart-count">{{cartCount}}</view>
+  </navigator>
+</view>

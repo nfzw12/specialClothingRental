@@ -134,7 +134,8 @@ public class ZukebaozhangxiufuController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody ZukebaozhangxiufuEntity zukebaozhangxiufu, HttpServletRequest request){
-    	zukebaozhangxiufu.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	zukebaozhangxiufu.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(zukebaozhangxiufu);
         zukebaozhangxiufuService.insert(zukebaozhangxiufu);
         return R.ok();
@@ -145,7 +146,8 @@ public class ZukebaozhangxiufuController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody ZukebaozhangxiufuEntity zukebaozhangxiufu, HttpServletRequest request){
-    	zukebaozhangxiufu.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	zukebaozhangxiufu.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(zukebaozhangxiufu);
         zukebaozhangxiufuService.insert(zukebaozhangxiufu);
         return R.ok();

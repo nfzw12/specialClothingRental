@@ -9,30 +9,46 @@ Page({
         orderList: [
             {
                 id: 1,
+                orderNo: 'ORDER20230628001',
                 fuzhuangmingcheng: '时尚休闲外套',
-                status: 0,
+                fuzhuangImage: 'https://picsum.photos/300/300?random=12',
+                status: 1,
                 totalPrice: 300,
                 zujietype: '1',
                 addtime: '2023-06-28 10:00:00'
             },
             {
                 id: 2,
+                orderNo: 'ORDER20230627002',
                 fuzhuangmingcheng: '优雅连衣裙',
-                status: 1,
+                fuzhuangImage: 'https://picsum.photos/300/300?random=13',
+                status: 2,
                 totalPrice: 450,
                 zujietype: '1',
                 addtime: '2023-06-27 15:30:00'
             },
             {
                 id: 3,
+                orderNo: 'ORDER20230626003',
                 fuzhuangmingcheng: '儿童卡通T恤',
-                status: 2,
+                fuzhuangImage: 'https://picsum.photos/300/300?random=14',
+                status: 3,
                 totalPrice: 150,
                 zujietype: '1',
                 addtime: '2023-06-26 09:15:00'
+            },
+            {
+                id: 4,
+                orderNo: 'ORDER20230625004',
+                fuzhuangmingcheng: '运动套装',
+                fuzhuangImage: 'https://picsum.photos/300/300?random=15',
+                status: 1,
+                totalPrice: 240,
+                zujietype: '1',
+                addtime: '2023-06-25 14:20:00'
             }
         ],
-        activeTab: 0 // 0: 全部, 1: 待支付, 2: 待发货, 3: 已完成
+        activeStatus: 0 // 0: 全部, 1: 待支付, 2: 待发货, 3: 已完成
     },
 
     /**
@@ -59,12 +75,6 @@ Page({
     },
     
     initData() {
-        // 直接使用默认数据，确保页面立即显示
-        this.setData({
-            orderList: this.data.orderList
-        })
-        console.log('订单列表数据已加载', this.data)
-        
         // 触发API请求
         this.loadOrderList()
     },
@@ -72,15 +82,34 @@ Page({
     // 加载订单列表
     loadOrderList() {
         const that = this
-        console.log('开始加载订单列表数据')
+        const activeStatus = this.data.activeStatus
+        console.log('开始加载订单列表数据，状态:', activeStatus)
+        
+        // 构建请求参数
+        const params = { page: 1, limit: 10 }
+        if (activeStatus > 0) {
+            params.status = activeStatus
+        }
         
         // 真实API调用
-        orderApi.getList({ page: 1, limit: 10 })
+        orderApi.getList(params)
             .then(res => {
                 console.log('加载订单列表成功:', res)
-                that.setData({
-                    orderList: res.data.list || that.data.orderList
-                })
+                // 确保数据结构正确
+                if (res.data && res.data.data && res.data.data.list) {
+                    that.setData({
+                        orderList: res.data.data.list || []
+                    })
+                } else if (res.data && res.data.list) {
+                    // 兼容不同的数据格式
+                    that.setData({
+                        orderList: res.data.list || []
+                    })
+                } else {
+                    that.setData({
+                        orderList: []
+                    })
+                }
             })
             .catch(err => {
                 console.error('加载订单列表失败:', err)
@@ -119,13 +148,24 @@ Page({
 
     },
     
-    // 切换标签页
-    switchTab(e) {
-        const tabIndex = e.currentTarget.dataset.index
+    // 选择订单状态
+    selectStatus(e) {
+        const status = parseInt(e.currentTarget.dataset.status)
         this.setData({
-            activeTab: tabIndex
+            activeStatus: status
         })
-        console.log('切换订单标签', tabIndex)
+        this.loadOrderList()
+        console.log('选择订单状态', status)
+    },
+    
+    // 跳转到支付页面
+    goPay(e) {
+        const id = e.currentTarget.dataset.id
+        wx.showToast({
+            title: '支付功能开发中',
+            icon: 'none',
+            duration: 2000
+        })
     },
     
     // 跳转到订单详情

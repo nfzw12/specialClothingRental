@@ -134,7 +134,8 @@ public class RizujiejiesuanController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody RizujiejiesuanEntity rizujiejiesuan, HttpServletRequest request){
-    	rizujiejiesuan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	rizujiejiesuan.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(rizujiejiesuan);
         rizujiejiesuanService.insert(rizujiejiesuan);
         return R.ok();
@@ -145,7 +146,8 @@ public class RizujiejiesuanController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody RizujiejiesuanEntity rizujiejiesuan, HttpServletRequest request){
-    	rizujiejiesuan.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	rizujiejiesuan.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(rizujiejiesuan);
         rizujiejiesuanService.insert(rizujiejiesuan);
         return R.ok();

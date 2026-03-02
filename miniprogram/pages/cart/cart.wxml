@@ -1,0 +1,148 @@
+<!--pages/cart/cart.wxml-->
+<view class="container">
+  <view class="cart-header">
+    <text class="cart-title">购物车</text>
+  </view>
+  
+  <!-- 购物车列表 -->
+  <view class="cart-list" wx:if="{{cartList.length > 0}}">
+    <!-- 全选 -->
+    <view class="cart-header-select">
+      <view class="select-all" bindtap="toggleSelectAll">
+        <view class="checkbox {{selectAll ? 'checked' : ''}}">
+          <text wx:if="{{selectAll}}" class="checkmark">✓</text>
+        </view>
+        <text class="select-all-text">全选</text>
+      </view>
+      <view class="batch-delete" bindtap="batchDelete">
+        <text class="batch-delete-text">批量删除</text>
+      </view>
+    </view>
+    
+    <!-- 商品列表 -->
+    <block wx:for="{{cartList}}" wx:key="{{item.id}}_{{item.size}}_{{item.startDate}}_{{item.endDate}}" wx:for-index="index">
+      <view class="cart-item">
+        <view class="cart-item-select">
+          <view class="checkbox {{item.selected ? 'checked' : ''}}" bindtap="toggleSelect" data-id="{{item.id}}" data-size="{{item.size}}" data-start-date="{{item.startDate}}" data-end-date="{{item.endDate}}" data-index="{{index}}">
+            <text wx:if="{{item.selected}}" class="checkmark">✓</text>
+          </view>
+        </view>
+        <view class="cart-item-info">
+          <image src="{{item.tupian}}" mode="aspectFill" class="cart-item-image"></image>
+          <view class="cart-item-details">
+            <text class="cart-item-name">{{item.fuzhuangmingcheng}}</text>
+            <text class="cart-item-size">尺码：{{item.size}}</text>
+            <text class="cart-item-option">
+              {{item.option === 'rizu' ? '日租' : item.option === 'changqi' ? '长期租赁' : '购买'}}
+            </text>
+            <text class="cart-item-price">¥{{item.jiage}}/{{item.option === 'rizu' || item.option === 'changqi' ? '天' : ''}}</text>
+            <text class="cart-item-quantity">数量：{{item.quantity}} 件</text>
+            <text class="cart-item-date" wx:if="{{item.startDate && item.endDate && (item.option === 'rizu' || item.option === 'changqi')}}">
+              租借日期：{{item.startDate}} 至 {{item.endDate}}
+            </text>
+          </view>
+        </view>
+        <view class="cart-item-actions">
+          <view class="quantity-picker">
+            <view class="quantity-btn" bindtap="decreaseQuantity" data-index="{{index}}">-</view>
+            <view class="quantity-input">{{item.quantity}}</view>
+            <view class="quantity-btn" bindtap="increaseQuantity" data-index="{{index}}">+</view>
+          </view>
+          <view class="action-buttons">
+            <view class="edit-btn" bindtap="showEditModal" data-id="{{item.id}}" data-size="{{item.size}}" data-start-date="{{item.startDate}}" data-end-date="{{item.endDate}}" data-index="{{index}}">
+              <text class="edit-icon">✏️</text>
+              <text class="action-text">编辑</text>
+            </view>
+            <view class="delete-btn" bindtap="deleteItem" data-id="{{item.id}}" data-size="{{item.size}}" data-start-date="{{item.startDate}}" data-end-date="{{item.endDate}}">
+              <text class="delete-icon">🗑️</text>
+              <text class="action-text">删除</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 空购物车 -->
+  <view class="empty-cart" wx:else>
+    <text class="empty-icon">🛒</text>
+    <text class="empty-text">购物车是空的</text>
+    <navigator url="/pages/fuzhuang/list" class="go-shopping-btn">
+      <text>去逛逛</text>
+    </navigator>
+  </view>
+  
+  <!-- 编辑商品模态框 -->
+  <view class="modal" wx:if="{{showEditModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">编辑商品</text>
+        <view class="modal-close" bindtap="closeEditModal">×</view>
+      </view>
+      <view class="modal-body">
+          <!-- 当前选中的尺码提示 -->
+          <view class="edit-tip" wx:if="{{editItem.size}}">
+            <text class="tip-text">当前选中：{{editItem.size}} 码</text>
+          </view>
+          
+          <!-- 尺码选择 -->
+          <view class="edit-section">
+            <text class="edit-label">尺码</text>
+            <view class="size-options">
+              <block wx:for="{{editItem.sizes}}" wx:key="index">
+                <view class="size-item {{editItem.size === item.size ? 'selected' : ''}}" bindtap="selectEditSize" data-size="{{item.size}}">
+                  <text class="size-text">{{item.size}}</text>
+                  <text class="size-qty">({{item.qty}}件)</text>
+                </view>
+              </block>
+              <view wx:if="{{editItem.sizes.length === 0}}" class="no-sizes">
+                <text>暂无尺码信息</text>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 数量选择 -->
+          <view class="edit-section">
+            <text class="edit-label">数量</text>
+            <view class="quantity-picker">
+              <view class="quantity-btn" bindtap="decreaseEditQuantity">-</view>
+              <view class="quantity-input">{{editItem.quantity}}</view>
+              <view class="quantity-btn" bindtap="increaseEditQuantity">+</view>
+            </view>
+          </view>
+          
+          <!-- 租借日期选择 -->
+          <view class="edit-section" wx:if="{{editItem.option === 'rizu' || editItem.option === 'changqi'}}">
+            <text class="edit-label">租借日期</text>
+            <picker mode="date" value="{{editItem.startDate}}" start="2020-01-01" end="2030-12-31" bindchange="bindEditStartDateChange">
+              <view class="picker">
+                开始日期：{{editItem.startDate}}
+              </view>
+            </picker>
+            <picker mode="date" value="{{editItem.endDate}}" start="2020-01-01" end="2030-12-31" bindchange="bindEditEndDateChange">
+              <view class="picker">
+                结束日期：{{editItem.endDate}}
+              </view>
+            </picker>
+          </view>
+      </view>
+      
+      <!-- 模态框底部按钮 -->
+      <view class="modal-footer">
+        <view class="modal-btn cancel-btn" bindtap="closeEditModal">取消</view>
+        <view class="modal-btn confirm-btn" bindtap="confirmEdit">确定</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部结算栏 -->
+  <view class="bottom-bar" wx:if="{{cartList.length > 0}}">
+    <view class="total-amount">
+      <text class="total-label">合计：</text>
+      <text class="total-price">¥{{totalPrice}}</text>
+    </view>
+    <view class="checkout-btn" bindtap="goCheckout">
+      <text class="checkout-text">结算({{selectedCount}})</text>
+    </view>
+  </view>
+</view>

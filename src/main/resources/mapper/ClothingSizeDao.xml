@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ClothingSizeDao" >
+  <resultMap type="com.entity.ClothingSizeEntity" id="BaseResultMap" >
+    <id column="id" property="id" />
+    <result column="clothing_id" property="clothingId" />
+    <result column="clothing_name" property="clothingName" />
+    <result column="size" property="size" />
+    <result column="qty" property="qty" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, clothing_id, clothing_name, size, qty
+  </sql>
+
+  <select id="selectByClothingId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM clothing_size
+    WHERE clothing_id = #{clothingId}
+  </select>
+</mapper>

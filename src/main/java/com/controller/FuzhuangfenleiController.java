@@ -130,7 +130,8 @@ public class FuzhuangfenleiController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
-    	fuzhuangfenlei.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	fuzhuangfenlei.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
         fuzhuangfenleiService.insert(fuzhuangfenlei);
         return R.ok();
@@ -141,7 +142,8 @@ public class FuzhuangfenleiController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody FuzhuangfenleiEntity fuzhuangfenlei, HttpServletRequest request){
-    	fuzhuangfenlei.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	fuzhuangfenlei.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(fuzhuangfenlei);
         fuzhuangfenleiService.insert(fuzhuangfenlei);
         return R.ok();

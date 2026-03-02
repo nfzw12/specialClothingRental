@@ -1,2 +1,86 @@
 <!--pages/user/user.wxml-->
-<text>pages/user/user.wxml</text>
+<view class="container">
+  <!-- 用户信息区域 -->
+  <view class="user-info">
+    <image src="{{userInfo.avatar || 'https://picsum.photos/100/100?random=1'}}" class="user-avatar"></image>
+    <view class="user-details">
+      <text class="user-name">{{userInfo.nickname || '未登录'}}</text>
+      <text class="user-phone">{{userInfo.phone || '点击登录'}}</text>
+    </view>
+    <view class="user-arrow" bindtap="goLogin">
+      <text>›</text>
+    </view>
+  </view>
+  
+  <!-- 订单管理 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">订单管理</text>
+      <navigator url="/pages/order/list" class="section-more">全部订单</navigator>
+    </view>
+    <view class="order-types">
+      <view class="order-type-item" bindtap="goOrderList" data-status="1">
+        <text class="order-type-icon">🔔</text>
+        <text class="order-type-text">待支付</text>
+      </view>
+      <view class="order-type-item" bindtap="goOrderList" data-status="2">
+        <text class="order-type-icon">📦</text>
+        <text class="order-type-text">待发货</text>
+      </view>
+      <view class="order-type-item" bindtap="goOrderList" data-status="3">
+        <text class="order-type-icon">✅</text>
+        <text class="order-type-text">已完成</text>
+      </view>
+      <view class="order-type-item" bindtap="goOrderList">
+        <text class="order-type-icon">📋</text>
+        <text class="order-type-text">全部</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 购物车 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">购物车</text>
+    </view>
+    <navigator url="/pages/cart/cart" class="cart-entry">
+      <view class="cart-entry-icon">🛒</view>
+      <view class="cart-entry-text">我的购物车</view>
+      <view class="cart-entry-arrow">›</view>
+    </navigator>
+  </view>
+  
+  <!-- 个人服务 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">个人服务</text>
+    </view>
+    <view class="service-list">
+      <view class="service-item" bindtap="goZujiehetong">
+        <text class="service-icon">📄</text>
+        <text class="service-text">租借合同</text>
+        <text class="service-arrow">›</text>
+      </view>
+      <view class="service-item" bindtap="goZukebaozhang">
+        <text class="service-icon">🛡️</text>
+        <text class="service-text">租客保障</text>
+        <text class="service-arrow">›</text>
+      </view>
+      <view class="service-item" bindtap="goSettings">
+        <text class="service-icon">⚙️</text>
+        <text class="service-text">设置</text>
+        <text class="service-arrow">›</text>
+      </view>
+      <view class="service-item" bindtap="goAbout">
+        <text class="service-icon">ℹ️</text>
+        <text class="service-text">关于我们</text>
+        <text class="service-arrow">›</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 退出登录 -->
+  <view class="logout-button" bindtap="logout">
+    <text>退出登录</text>
+  </view>
+</view>

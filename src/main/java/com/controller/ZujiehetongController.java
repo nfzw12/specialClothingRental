@@ -130,7 +130,8 @@ public class ZujiehetongController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody ZujiehetongEntity zujiehetong, HttpServletRequest request){
-    	zujiehetong.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	zujiehetong.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(zujiehetong);
         zujiehetongService.insert(zujiehetong);
         return R.ok();
@@ -141,7 +142,8 @@ public class ZujiehetongController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody ZujiehetongEntity zujiehetong, HttpServletRequest request){
-    	zujiehetong.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	zujiehetong.setId(java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     	//ValidatorUtils.validateEntity(zujiehetong);
         zujiehetongService.insert(zujiehetong);
         return R.ok();

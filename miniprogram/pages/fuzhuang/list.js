@@ -72,13 +72,6 @@ Page({
     },
     
     initData() {
-        // 直接使用默认数据，确保页面立即显示
-        this.setData({
-            fuzhuangList: this.data.fuzhuangList,
-            categories: this.data.categories
-        })
-        console.log('服装列表数据已加载', this.data)
-        
         // 触发API请求
         this.loadFuzhuangList()
         this.loadCategories()
@@ -87,14 +80,51 @@ Page({
     // 加载服装列表
     loadFuzhuangList() {
         const that = this
-        console.log('开始加载服装列表数据')
+        const activeCategory = this.data.activeCategory
+        console.log('开始加载服装列表数据，分类ID:', activeCategory)
+        
+        // 构建请求参数
+        const params = { page: 1, limit: 10 }
+        if (activeCategory > 0) {
+            // 查找对应的分类名称
+            const category = that.data.categories.find(cat => cat.id === activeCategory)
+            if (category) {
+                params.fuzhuangfenlei = category.fuzhuangfenlei
+            }
+        }
         
         // 真实API调用
-        fuzhuangApi.getList({ page: 1, limit: 10 })
+        fuzhuangApi.getList(params)
             .then(res => {
                 console.log('加载服装列表成功:', res)
+                // 确保数据结构正确
+                let list = []
+                if (res.data && res.data.data && res.data.data.list) {
+                    list = res.data.data.list || []
+                } else if (res.data && res.data.list) {
+                    // 兼容不同的数据格式
+                    list = res.data.list || []
+                }
+                
+                // 处理图片路径和价格
+                const processedList = list.map(item => {
+                    if (item.fuzhuangtupian) {
+                        // 取第一张图片作为列表显示
+                        const imgList = item.fuzhuangtupian.split(',')
+                        if (imgList.length > 0 && imgList[0]) {
+                            // 使用HTTP协议访问本地静态资源，因为已经打开了不校验合法域名选项
+                            item.tupian = `http://localhost:8080/springbooto8ka3/${imgList[0]}`
+                        }
+                    }
+                    // 处理价格字段
+                    const yuanjia = item.price || item.fuzhuangjiage || 0
+                    item.jiage = Math.round(yuanjia * 0.04) // 日租金为原价的4%
+                    item.zujietype = '1' // 默认为日租
+                    return item
+                })
+                
                 that.setData({
-                    fuzhuangList: res.data.list || that.data.fuzhuangList
+                    fuzhuangList: processedList
                 })
             })
             .catch(err => {
@@ -115,9 +145,21 @@ Page({
         fuzhuangApi.getCategories()
             .then(res => {
                 console.log('加载分类列表成功:', res)
-                that.setData({
-                    categories: res.data.list || that.data.categories
-                })
+                // 确保数据结构正确
+                if (res.data && res.data.data && res.data.data.list) {
+                    that.setData({
+                        categories: res.data.data.list || []
+                    })
+                } else if (res.data && res.data.list) {
+                    // 兼容不同的数据格式
+                    that.setData({
+                        categories: res.data.list || []
+                    })
+                } else {
+                    that.setData({
+                        categories: []
+                    })
+                }
             })
             .catch(err => {
                 console.error('加载分类列表失败:', err)
@@ -163,6 +205,8 @@ Page({
             activeCategory: categoryId
         })
         console.log('切换分类', categoryId)
+        // 重新加载服装列表数据
+        this.loadFuzhuangList()
     },
     
     // 跳转到服装详情

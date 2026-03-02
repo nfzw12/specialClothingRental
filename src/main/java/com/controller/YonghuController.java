@@ -84,7 +84,8 @@ public class YonghuController {
 		if(u!=null) {
 			return R.error("注册用户已存在");
 		}
-		Long uId = new Date().getTime();
+		// 使用UUID生成唯一ID，避免重复
+		Long uId = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 		yonghu.setId(uId);
         yonghuService.insert(yonghu);
         return R.ok();
@@ -200,13 +201,14 @@ public class YonghuController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody YonghuEntity yonghu, HttpServletRequest request){
-    	yonghu.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	long id = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    	yonghu.setId(id);
     	//ValidatorUtils.validateEntity(yonghu);
     	YonghuEntity u = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("yonghuzhanghao", yonghu.getYonghuzhanghao()));
 		if(u!=null) {
 			return R.error("用户已存在");
 		}
-		yonghu.setId(new Date().getTime());
         yonghuService.insert(yonghu);
         return R.ok();
     }
@@ -216,13 +218,14 @@ public class YonghuController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody YonghuEntity yonghu, HttpServletRequest request){
-    	yonghu.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+    	// 使用UUID生成唯一ID，避免重复
+    	long id = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    	yonghu.setId(id);
     	//ValidatorUtils.validateEntity(yonghu);
     	YonghuEntity u = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("yonghuzhanghao", yonghu.getYonghuzhanghao()));
 		if(u!=null) {
 			return R.error("用户已存在");
 		}
-		yonghu.setId(new Date().getTime());
         yonghuService.insert(yonghu);
         return R.ok();
     }

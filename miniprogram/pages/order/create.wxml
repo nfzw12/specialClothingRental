@@ -1,2 +1,125 @@
 <!--pages/order/create.wxml-->
-<text>pages/order/create.wxml</text>
+<view class="container">
+  <!-- 购物车商品列表 -->
+  <view class="cart-items" wx:if="{{fromCart && cartSelectedItems && cartSelectedItems.length > 0}}">
+    <view class="section-title">购物车商品</view>
+    <block wx:for="{{cartSelectedItems}}" wx:key="id">
+      <view class="cart-item">
+        <image src="{{item.tupian}}" mode="aspectFill" class="cart-item-image"></image>
+        <view class="cart-item-details">
+          <text class="cart-item-name">{{item.fuzhuangmingcheng}}</text>
+          <text class="cart-item-size">尺码：{{item.size}}</text>
+          <text class="cart-item-option">
+            {{item.option === 'rizu' ? '日租' : item.option === 'changqi' ? '长期租赁' : '购买'}}
+          </text>
+          <text class="cart-item-price">¥{{item.jiage}}/{{item.option === 'rizu' || item.option === 'changqi' ? '天' : ''}}</text>
+          <text class="cart-item-quantity">数量：{{item.quantity}} 件</text>
+          <text class="cart-item-date" wx:if="{{item.startDate && item.endDate && (item.option === 'rizu' || item.option === 'changqi')}}">
+            租借日期：{{item.startDate}} 至 {{item.endDate}}
+          </text>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 单个服装信息 -->
+  <view class="fuzhuang-info" wx:if="{{!fromCart}}">
+    <image src="{{fuzhuangInfo.tupian}}" mode="aspectFill" class="fuzhuang-image"></image>
+    <view class="fuzhuang-details">
+      <text class="fuzhuang-name">{{fuzhuangInfo.fuzhuangmingcheng}}</text>
+      <text class="fuzhuang-price">¥{{fuzhuangInfo.jiage}}/{{selectedOption === 'rizu' || selectedOption === 'changqi' ? '天' : ''}}</text>
+      <text class="fuzhuang-category">{{fuzhuangInfo.fuzhuangfenlei}} | {{fuzhuangInfo.fuzhuangpinpai}}</text>
+      <text class="fuzhuang-size" wx:if="{{selectedSize}}">尺码：{{selectedSize}}</text>
+    </view>
+  </view>
+  
+  <!-- 订单信息 -->
+  <view class="order-info">
+    <view class="info-section" wx:if="{{!fromCart}}">
+      <text class="section-title">订单信息</text>
+      <view class="order-details">
+        <view class="order-item">
+          <text class="order-label">租借时间</text>
+          <text class="order-value">{{startDate}} 至 {{endDate}}</text>
+        </view>
+        <view class="order-item">
+          <text class="order-label">租借数量</text>
+          <text class="order-value">{{quantity}} 件</text>
+        </view>
+        <view class="order-item" wx:if="{{selectedOption === 'rizu' || selectedOption === 'changqi'}}">
+          <text class="order-label">租借天数</text>
+          <text class="order-value">{{rentDays}} 天</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="info-section">
+      <text class="section-title">联系人信息</text>
+      <view class="contact-info">
+        <view class="contact-item">
+          <text class="contact-label">姓名</text>
+          <input type="text" placeholder="请输入联系人姓名" value="{{contactName}}" bindinput="bindContactNameInput" class="contact-input"/>
+        </view>
+        <view class="contact-item">
+          <text class="contact-label">电话</text>
+          <input type="number" placeholder="请输入联系电话" value="{{contactPhone}}" bindinput="bindContactPhoneInput" class="contact-input"/>
+        </view>
+        <view class="contact-item">
+          <text class="contact-label">地址</text>
+          <input type="text" placeholder="请输入联系地址" value="{{contactAddress}}" bindinput="bindContactAddressInput" class="contact-input"/>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 订单金额 -->
+  <view class="order-amount">
+    <!-- 单个商品订单金额明细 -->
+    <view wx:if="{{!fromCart}}">
+      <view class="amount-item">
+        <text class="amount-label">服装单价</text>
+        <text class="amount-value">¥{{fuzhuangInfo.jiage}}/{{selectedOption === 'rizu' || selectedOption === 'changqi' ? '天' : ''}}</text>
+      </view>
+      <view class="amount-item" wx:if="{{selectedOption === 'rizu' || selectedOption === 'changqi'}}">
+        <text class="amount-label">租借天数</text>
+        <text class="amount-value">{{rentDays}} 天</text>
+      </view>
+      <view class="amount-item">
+        <text class="amount-label">租借数量</text>
+        <text class="amount-value">{{quantity}} 件</text>
+      </view>
+      <view class="amount-item" wx:if="{{selectedOption === 'rizu' || selectedOption === 'changqi'}}">
+        <text class="amount-label">押金</text>
+        <text class="amount-value">¥{{fuzhuangInfo.baozhengjin}}</text>
+      </view>
+    </view>
+    
+    <!-- 购物车订单金额明细 -->
+    <view wx:if="{{fromCart && cartSelectedItems && cartSelectedItems.length > 0}}">
+      <view class="amount-item">
+        <text class="amount-label">总数量</text>
+        <text class="amount-value">{{cartTotalQuantity}} 件</text>
+      </view>
+      <view class="amount-item">
+        <text class="amount-label">总押金</text>
+        <text class="amount-value">¥{{cartTotalDeposit}}</text>
+      </view>
+    </view>
+    
+    <view class="amount-item total">
+      <text class="amount-label">订单总价</text>
+      <text class="amount-value total-price">¥{{totalPrice}}</text>
+    </view>
+  </view>
+  
+  <!-- 底部提交按钮 -->
+  <view class="bottom-bar">
+    <view class="total-amount">
+      <text class="total-label">合计：</text>
+      <text class="total-amount-value">¥{{totalPrice}}</text>
+    </view>
+    <view class="submit-btn" bindtap="submitOrder">
+      <text class="submit-text">提交订单</text>
+    </view>
+  </view>
+</view>

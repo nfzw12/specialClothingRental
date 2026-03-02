@@ -1,8 +1,14 @@
 // 网络请求封装
-const app = getApp()
+let app;
+try {
+  app = getApp();
+} catch (e) {
+  console.warn('getApp() failed:', e);
+  app = {};
+}
 
 // 基础URL
-const baseURL = app.globalData.baseURL || 'http://localhost:8080/springbooto8ka3'
+const baseURL = (app.globalData && app.globalData.baseURL) || 'http://localhost:8080/springbooto8ka3'
 
 /**
  * 封装wx.request

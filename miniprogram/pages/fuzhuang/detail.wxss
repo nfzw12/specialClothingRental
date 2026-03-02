@@ -1,1 +1,297 @@
-/* pages/fuzhuang/detail.wxss */
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 图片轮播 */
+.image-carousel {
+  width: 100%;
+  height: 500rpx;
+  background-color: #fff;
+}
+
+.image-carousel swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.image-carousel image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 基本信息 */
+.basic-info {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.fuzhuang-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+
+.price {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff4d4f;
+  margin-right: 10rpx;
+}
+
+.price-unit {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 15rpx;
+}
+
+.info-label {
+  font-size: 28rpx;
+  color: #666;
+  width: 120rpx;
+}
+
+.info-value {
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+}
+
+/* 购买选项 */
+.purchase-options {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-label {
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+}
+
+.option-price {
+  font-size: 28rpx;
+  color: #ff4d4f;
+  margin-right: 20rpx;
+}
+
+.option-check {
+  font-size: 32rpx;
+  color: #1677FF;
+  font-weight: bold;
+}
+
+/* 详细描述 */
+.description {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.description-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 租借须知 */
+.notice {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 100rpx;
+}
+
+.notice-content {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.notice-item {
+  display: flex;
+  margin-bottom: 15rpx;
+  line-height: 1.5;
+}
+
+.notice-icon {
+  margin-right: 10rpx;
+  color: #1677FF;
+}
+
+.notice-text {
+  flex: 1;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: #fff;
+  padding: 15rpx 20rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.contact-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30rpx;
+  padding: 10rpx;
+}
+
+.contact-icon {
+  font-size: 40rpx;
+  margin-bottom: 5rpx;
+}
+
+.contact-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.add-cart-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30rpx;
+  padding: 10rpx;
+}
+
+.add-cart-icon {
+  font-size: 40rpx;
+  margin-bottom: 5rpx;
+}
+
+.add-cart-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.rent-btn {
+  flex: 1;
+  background-color: #1677FF;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+}
+
+.rent-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* 购物车按钮 */
+.cart-navigator {
+  position: fixed;
+  bottom: 120rpx;
+  right: 30rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: #1677FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+  z-index: 99;
+}
+
+.cart-navigator-icon {
+  font-size: 40rpx;
+  color: #fff;
+}
+
+/* 购物车数量 */
+.cart-count {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: bold;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 尺码选择样式 */
+.size-options {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+  align-items: center;
+}
+
+.size-item {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 40rpx;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.size-item.selected {
+  border-color: #ff6b6b;
+  background-color: #fff0f0;
+  color: #ff6b6b;
+}
+
+.size-text {
+  font-size: 30rpx;
+  margin-right: 5rpx;
+}
+
+.size-qty {
+  font-size: 24rpx;
+  color: #999;
+}
